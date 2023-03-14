@@ -1,5 +1,5 @@
 const express = require("express");
-const { MongoClient } = require("mongodb");
+const { MongoClient, ServerApiVersion } = require("mongodb");
 var bodyParser = require("body-parser");
 const app = express();
 
@@ -10,8 +10,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 const uri =
   "mongodb+srv://omkarpednekar2002:XCFYovJfWOlph5VA@testcluster.shhsf6z.mongodb.net/?retryWrites=true&w=majority";
-
-const client = new MongoClient(uri);
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverApi: ServerApiVersion.v1,
+  serverSelectionTimeoutMS: 10000,
+});
 const database = client.db("TodoList");
 
 app.get("/", (req, res) => res.send("Hello world!"));
